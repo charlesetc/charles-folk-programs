@@ -1,0 +1,13 @@
+Commit { Claim the circle at {200 200} }
+
+When $this has region /r/ {
+  lassign $r vertices edges
+  lassign $vertices a b c d
+  Commit { Claim the circle at $c }
+}
+
+When the circle at /c/ {
+  When the circle radius is /radius/ {
+    Display::circle {*}$c $radius 5 white
+  }
+}

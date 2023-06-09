@@ -1,0 +1,11 @@
+Commit { Claim the circle radius is 30 }
+
+When $this has region /region/ {
+  
+  lassign $region vertices edges
+  lassign $vertices a b p d
+  lassign $p x y
+  set radius [expr (abs($x - 1000) / 3)] 
+
+  Commit { Claim the circle radius is $radius }
+}

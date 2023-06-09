@@ -1,0 +1,50 @@
+When $this has region /r/ {
+  lassign $r vertices edges
+  lassign $vertices a b c d
+  set p [add $c {250 250}]
+  Claim angle control is $p
+}
+
+When angle control is /p/ {
+  Display::circle {*}$p 10 5 white
+  Display::circle {*}$p 0 10 deeppink
+}
+
+
+When the circle at /c/ {
+  When the circle radius is /radius/ {
+    When angle control is /a/ {
+
+    set angle_vector [sub $a $c]
+    set unit_vector [unitLengthVector $angle_vector]
+    set circle_vector [scale $radius $unit_vector]
+
+    set scale [expr $radius / 4]
+    set corner_0 $circle_vector
+    set unit_1 [unitLengthVector [sub [list 0 $radius] $corner_0]]
+    set scaled_1 [scale $scale $unit_1]
+    set corner_1 [add $circle_vector $scaled_1]
+    set unit_2 [unitLengthVector [add [list 0 $radius] $corner_0]]
+    set scaled_2 [scale [expr -1 * $scale] $unit_2]
+    set corner_2 [add $circle_vector $scaled_2]
+    set corner_3 [add $circle_vector [add $scaled_1 $scaled_2]]
+
+    # draw the square
+    Display::stroke [list \
+      [add $c $corner_0] \
+      [add $c $corner_1] \
+      [add $c $corner_3] \
+      [add $c $corner_2] \
+      [add $c $corner_0] \
+    ] 2 white
+    
+    # draw the triangle
+    Display::stroke [list \
+      [add $c [list 0 $radius]] \
+      [sub $c [list 0 $radius]] \
+      [add $c $circle_vector] \
+      [add $c [list 0 $radius]] \
+    ] 2 slategrey
+    }
+  }
+}
