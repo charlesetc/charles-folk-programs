@@ -1,0 +1,33 @@
+Wish $this has filename "operator.folk"
+
+When /someone/ wishes /p/ is an operator & /p/ has region /r/ & /p2/ has region /r_other/ {
+  if {$p eq $p2} { return }
+
+  lassign $r vertices edges
+  lassign $vertices a b c d
+  set boxVector [sub $c $a]
+  set widthVector [sub $c $b]
+  set rightBoxVector [sub $boxVector [scale 0.8 $widthVector]]
+
+  lassign $r_other vertices_other edges_other
+  lassign $vertices_other a_other b_other c_other d_other
+
+  set hasRightIntersections [rectanglesOverlap $a [add $a $rightBoxVector] $a_other $c_other false]
+  set hasLeftIntersections [rectanglesOverlap $c [add $c [scale -1 $rightBoxVector]] $a_other $c_other false]
+
+  if {$hasLeftIntersections} {
+    Claim $p has left parameter $p2
+  }
+
+  if {$hasRightIntersections} {
+    Claim $p has right parameter $p2
+  }
+}
+
+When /p/ has left parameter /l/ {
+  Wish $p is labelled "Left: $l"
+}
+
+When /p/ has right parameter /r/ {
+  Wish $p is labelled "Right: $r"
+}
